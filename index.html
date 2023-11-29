@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product CRUD</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <h1>Product CRUD</h1>
+
+    <form id="add-product-form">
+      <h2>Add Product</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description" />
+      <label for="price">Price:</label>
+      <input type="number" id="price" name="price" required step="0.01" />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="products"></ul>
+
+    <form id="fetch-product-form">
+      <h2>Fetch Product by ID</h2>
+      <label for="fetch-product-id">Product ID:</label>
+      <input
+        type="text"
+        id="fetch-product-id"
+        name="fetch-product-id"
+        required
+      />
+      <button type="submit">Fetch Product</button>
+    </form>
+
+    <div id="product-details">
+      <h2>Product Details</h2>
+      <p><strong>ID:</strong> <span id="details-id"></span></p>
+      <p><strong>Name:</strong> <span id="details-name"></span></p>
+      <p>
+        <strong>Description:</strong> <span id="details-description"></span>
+      </p>
+      <p><strong>Price:</strong> $<span id="details-price"></span></p>
+    </div>
+
+    <form id="update-product-form">
+      <h2>Update Product</h2>
+      <input type="hidden" id="update-id" name="id" />
+      <label for="update-name">Name:</label>
+      <input type="text" id="update-name" name="name" required />
+      <label for="update-description">Description:</label>
+      <!-- New -->
+      <input type="text" id="update-description" name="description" required />
+      <!-- New -->
+      <label for="update-price">Price:</label>
+      <input
+        type="number"
+        id="update-price"
+        name="price"
+        required
+        step="0.01"
+      />
+      <button type="submit">Update</button>
+    </form>
+
+    <script src="app.js"></script>
+    <script>
+      document
+        .querySelector("#fetch-product-form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const productId = document.getElementById("fetch-product-id").value;
+          const product = await fetchProductById(productId);
+
+          // Display product details
+          document.getElementById("details-id").innerText = product.id;
+          document.getElementById("details-name").innerText = product.name;
+          document.getElementById("details-description").innerText =
+            product.description;
+          document.getElementById("details-price").innerText = product.price;
+
+          // Show the product details section
+          document.getElementById("product-details").style.display = "block";
+        });
+
+      // Call fetchProducts() when the page loads
+      window.addEventListener("load", fetchProducts);
+    </script>
+  </body>
+</html>
